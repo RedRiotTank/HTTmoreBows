@@ -3,6 +3,8 @@ commands\HTTbows.class
 events\FireBow.class
 events\ExplosiveBow.class
 events\DropStick.class
+httbows\httbows\HTTBows$1.class
 httbows\httbows\HTTBows.class
+events\FireTheBow.class
 events\ThunderBow.class
 httbows\httbows\ItemManager.class

@@ -142,10 +142,13 @@ public class FireBow implements Listener {
         xzplus1.setZ(blocklocation.getZ() + plusZ);
 
 
+        /*
         while(xzplus1.getBlock().getType() == Material.AIR){
             xzplus1.setY(xzplus1.getY() - 1);
         }
 
+
+         */
 
 
         xzplus1.getWorld().spawnFallingBlock(xzplus1, Material.SAND, blocklocation.getBlock().getData());
