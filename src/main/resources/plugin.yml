@@ -1,0 +1,10 @@
+name: HTTBows
+version: '${project.version}'
+main: httbows.httbows.HTTBows
+commands:
+  HTTbows:
+    description: Main Command
+    aliases: [explosivebow, thunderbow, shadowbow, levitationbow, firebow]
+api-version: 1.19
+authors: [ RedRiotTank ]
+description: More bows for minecraft plugin
