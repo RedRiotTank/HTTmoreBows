@@ -22,11 +22,15 @@ public final class HTTBows extends JavaPlugin {
         // Plugin startup logic
         Bukkit.getConsoleSender().sendMessage("HTTrolplay started correctly");
         registerCommands();
+
+        /*
         getServer().getPluginManager().registerEvents(new DropStick(),this);
         getServer().getPluginManager().registerEvents(new ExplosiveBow(), this);
         getServer().getPluginManager().registerEvents(new ThunderBow(), this);
         getServer().getPluginManager().registerEvents(new LevitationBow(), this);
         getServer().getPluginManager().registerEvents(new FireBow(), this);
+        */
+        getServer().getPluginManager().registerEvents(new onProjectileHitEvent(), this);
         getServer().getPluginManager().registerEvents(new FireTheBow(), this);
         runnable();
     }
@@ -51,14 +55,26 @@ public final class HTTBows extends JavaPlugin {
             @Override
             public void run() {
 
-                //List<Entity> entilist= getServer().getWorld("World").getEntities();
                 Collection<Arrow> flechas = getServer().getWorld("World").getEntitiesByClass(org.bukkit.entity.Arrow.class);
-
+                Particle particleType = null;
                 for(Entity flecha : flechas) {
-                    System.out.println("runnable, customname flecha: " + flecha.getCustomName());
-                    if (flecha.getType() == EntityType.ARROW && flecha.getCustomName().equals("FireBowProjectile") ) {
-                        getServer().getWorld("World").spawnParticle(Particle.FLAME, flecha.getLocation(), 5);
-                    }
+
+
+                    if (flecha.getCustomName().equals("FireBowProjectile") )
+                        particleType = Particle.FLAME;
+
+                    if (flecha.getCustomName().equals("ThunderBowProjectile") )
+                        particleType = Particle.ELECTRIC_SPARK;
+
+                    if (flecha.getCustomName().equals("LevitationBowProjectile") )
+                        particleType = Particle.HEART;
+
+                    if (flecha.getCustomName().equals("ExplosiveBowProjectile") )
+                        particleType = Particle.SMOKE_NORMAL;
+
+
+                        getServer().getWorld("World").spawnParticle(particleType, flecha.getLocation(), 5);
+
                 }
 
             }

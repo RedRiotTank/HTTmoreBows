@@ -1,22 +1,40 @@
 package events;
-import java.util.Random;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.graalvm.compiler.phases.schedule.BlockClosure;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
-public class FireBow implements Listener {
+import java.util.Random;
+
+public class onProjectileHitEvent implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onProjectileHit(ProjectileHitEvent event) {
-        boolean cumpleparametros = true;
+        //variables generales:
         Player player = (Player) event.getEntity().getShooter();
+
+        //variables FireBow:
+        boolean cumpleparametros = true;
         Block block = null;
 
+        //variables levitationBow
+        Entity entitymob = event.getHitEntity();
+        Mob livent = (Mob) entitymob;
+
+        //EXPLOSIVE BOW
+        if(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("Explosive Bow")) {
+            player.getWorld().createExplosion(event.getEntity().getLocation(), 5, true, true);
+        }
+        //FIRE BOW
         if(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("Fire Bow")) {
 
             if (event.getHitBlockFace() == BlockFace.UP){
@@ -56,19 +74,25 @@ public class FireBow implements Listener {
                         FireSet4(block);
                         break;
                 }
-
-
             }
-
-
-
 
         }
 
+        //LevitationBow
+        if(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("Levitation Bow")){
 
+            livent.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION,20,6));
+        }
+
+        //ThunderBow
+        if(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("Thunder Bow")){
+            player.getWorld().strikeLightning(event.getEntity().getLocation());
+            //player.getWorld().spawnParticle(Particle.ELECTRIC_SPARK,event.getEntity().getLocation(),500);
+        }
 
     }
 
+// INICIO FUNCIONES FIREBOW
     public void FireSet0(Block block){
         setFireBlock(block.getLocation(),3,1);
         setFireBlock(block.getLocation(),-1,-2);
@@ -120,10 +144,6 @@ public class FireBow implements Listener {
         setFireBlock(block.getLocation(),-1,1);
     }
 
-
-
-
-
     public void setFireupside(Location blockLocation){
 
         Location firelocation = blockLocation;
@@ -135,32 +155,18 @@ public class FireBow implements Listener {
 
     //@SuppressWarnings("deprecation")
     public void setFireBlock(Location blocklocation, int plusX, int plusZ){
-
-
         Location xzplus1 = blocklocation;
         xzplus1.setX(blocklocation.getX() + plusX);
         xzplus1.setZ(blocklocation.getZ() + plusZ);
 
 
-        /*
-        while(xzplus1.getBlock().getType() == Material.AIR){
-            xzplus1.setY(xzplus1.getY() - 1);
-        }
-
-
-         */
-
-
-        xzplus1.getWorld().spawnFallingBlock(xzplus1, Material.SAND, blocklocation.getBlock().getData());
+        xzplus1.getWorld().spawnFallingBlock(xzplus1, Material.NETHERRACK, blocklocation.getBlock().getData());
         //xzplus1.getBlock().setType(Material.NETHERRACK);
-
 
         setFireupside(xzplus1);
 
-
-
     }
-
+    // FIN FUNCIONES FIREBOW
 
 
 }
