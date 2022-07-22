@@ -34,6 +34,7 @@ public class onProjectileHitEvent implements Listener {
         if(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("Explosive Bow")) {
             player.getWorld().createExplosion(event.getEntity().getLocation(), 5, true, true);
         }
+
         //FIRE BOW
         if(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("Fire Bow")) {
 
@@ -90,6 +91,8 @@ public class onProjectileHitEvent implements Listener {
             //player.getWorld().spawnParticle(Particle.ELECTRIC_SPARK,event.getEntity().getLocation(),500);
         }
 
+
+        event.getEntity().remove();
     }
 
 // INICIO FUNCIONES FIREBOW
@@ -153,7 +156,7 @@ public class onProjectileHitEvent implements Listener {
 
     }
 
-    //@SuppressWarnings("deprecation")
+    @SuppressWarnings("deprecation")
     public void setFireBlock(Location blocklocation, int plusX, int plusZ){
         Location xzplus1 = blocklocation;
         xzplus1.setX(blocklocation.getX() + plusX);
@@ -161,10 +164,7 @@ public class onProjectileHitEvent implements Listener {
 
 
         xzplus1.getWorld().spawnFallingBlock(xzplus1, Material.NETHERRACK, blocklocation.getBlock().getData());
-        //xzplus1.getBlock().setType(Material.NETHERRACK);
-
         setFireupside(xzplus1);
-
     }
     // FIN FUNCIONES FIREBOW
 

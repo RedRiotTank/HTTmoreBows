@@ -1,7 +1,9 @@
 commands\HTTbows.class
-events\DropStick.class
-httbows\httbows\HTTBows$1.class
 httbows\httbows\HTTBows.class
 events\FireTheBow.class
+httbows\httbows\Runnables$1.class
+httbows\httbows\ArrowParticleManager.class
 events\onProjectileHitEvent.class
 httbows\httbows\ItemManager.class
+httbows\httbows\PlayerpEffectsFromBow.class
+httbows\httbows\Runnables.class

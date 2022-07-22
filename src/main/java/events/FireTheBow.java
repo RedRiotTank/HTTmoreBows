@@ -1,26 +1,31 @@
 package events;
 
-import org.bukkit.entity.Arrow;
+
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityShootBowEvent;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class FireTheBow implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onEntityShootBow(EntityShootBowEvent event) {
-
-       String nombrearco = event.getBow().getItemMeta().getDisplayName();
+        Player player = null;
+        String nombrearco = event.getBow().getItemMeta().getDisplayName();
         String firebow = "Fire Bow",
                 thunderbow = "Thunder Bow",
                 levitationbow = "Levitation Bow",
-                explosiveBow = "Explosive Bow";
+                explosiveBow = "Explosive Bow",
+                shadowBow = "Shadows Bow";
 
+       if(nombrearco.equals(shadowBow)){
+           player = (Player) event.getEntity();
+           player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,100,4));
+       }
 
-
-
-       if(nombrearco.equals(firebow))
-           event.getProjectile().setCustomName("FireBowProjectile");
+        if(nombrearco.equals(firebow))
+            event.getProjectile().setCustomName("FireBowProjectile");
 
         if(nombrearco.equals(thunderbow))
             event.getProjectile().setCustomName("ThunderBowProjectile");
@@ -30,16 +35,6 @@ public class FireTheBow implements Listener {
 
         if(nombrearco.equals(explosiveBow))
             event.getProjectile().setCustomName("ExplosiveBowProjectile");
-
-
-        nombrearco = event.getBow().getItemMeta().getDisplayName();
-
-
-
-
-
-
-
     }
 
 
