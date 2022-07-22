@@ -1,6 +1,7 @@
 package events;
 
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,11 +14,11 @@ public class FireTheBow implements Listener {
     public void onEntityShootBow(EntityShootBowEvent event) {
         Player player = null;
         String nombrearco = event.getBow().getItemMeta().getDisplayName();
-        String firebow = "Fire Bow",
-                thunderbow = "Thunder Bow",
-                levitationbow = "Levitation Bow",
-                explosiveBow = "Explosive Bow",
-                shadowBow = "Shadows Bow";
+        String firebow = ChatColor.RED + "Fire Bow",
+                thunderbow = ChatColor.GRAY + "Thunder Bow",
+                levitationbow = ChatColor.DARK_AQUA + "Levitation Bow",
+                explosiveBow = ChatColor.DARK_RED + "Explosive Bow",
+                shadowBow = ChatColor.DARK_PURPLE + "Shadows Bow";
 
        if(nombrearco.equals(shadowBow)){
            player = (Player) event.getEntity();

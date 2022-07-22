@@ -1,5 +1,6 @@
 package events;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -31,12 +32,12 @@ public class onProjectileHitEvent implements Listener {
         Mob livent = (Mob) entitymob;
 
         //EXPLOSIVE BOW
-        if(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("Explosive Bow")) {
+        if(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.DARK_RED + "Explosive Bow")) {
             player.getWorld().createExplosion(event.getEntity().getLocation(), 5, true, true);
         }
 
         //FIRE BOW
-        if(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("Fire Bow")) {
+        if(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.RED + "Fire Bow")) {
 
             if (event.getHitBlockFace() == BlockFace.UP){
                 block= event.getHitBlock();
@@ -80,13 +81,13 @@ public class onProjectileHitEvent implements Listener {
         }
 
         //LevitationBow
-        if(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("Levitation Bow")){
+        if(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.DARK_AQUA + "Levitation Bow")){
 
             livent.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION,20,6));
         }
 
         //ThunderBow
-        if(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("Thunder Bow")){
+        if(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.GRAY + "Thunder Bow")){
             player.getWorld().strikeLightning(event.getEntity().getLocation());
             //player.getWorld().spawnParticle(Particle.ELECTRIC_SPARK,event.getEntity().getLocation(),500);
         }
