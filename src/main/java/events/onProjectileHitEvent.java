@@ -7,6 +7,7 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,9 +28,11 @@ public class onProjectileHitEvent implements Listener {
         boolean cumpleparametros = true;
         Block block = null;
 
-        //variables levitationBow
-        Entity entitymob = event.getHitEntity();
-        Mob livent = (Mob) entitymob;
+        //entidad golpeada
+        Entity HitEntity = event.getHitEntity();
+
+
+
 
         //EXPLOSIVE BOW
         if(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.DARK_RED + "Explosive Bow")) {
@@ -82,8 +85,14 @@ public class onProjectileHitEvent implements Listener {
 
         //LevitationBow
         if(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.DARK_AQUA + "Levitation Bow")){
+            if(HitEntity instanceof Player){
+                ((Player) HitEntity).addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION,20,6));
+            } else if (HitEntity instanceof Mob){
+                ((Mob) HitEntity).addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION,20,6));
+            }
 
-            livent.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION,20,6));
+
+
         }
 
         //ThunderBow

@@ -16,7 +16,7 @@ public final class HTTBows extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new FireTheBow(), this);
 
         //Runnables register
-        Runnables.runnable(this);
+        //Runnables.runnable(this);
         Bukkit.getConsoleSender().sendMessage("HTTBows started correctly");
     }
 
