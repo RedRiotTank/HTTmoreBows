@@ -1,9 +1,6 @@
 package events;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
@@ -18,6 +15,9 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.Random;
 
+
+import static org.bukkit.Bukkit.getServer;
+
 public class onProjectileHitEvent implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onProjectileHit(ProjectileHitEvent event) {
@@ -31,6 +31,11 @@ public class onProjectileHitEvent implements Listener {
         //entidad golpeada
         Entity HitEntity = event.getHitEntity();
 
+        //Bloque golpeado
+        Block hitBlock = event.getHitBlock();
+
+
+
 
 
 
@@ -42,45 +47,36 @@ public class onProjectileHitEvent implements Listener {
         //FIRE BOW
         if(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.RED + "Fire Bow")) {
 
-            if (event.getHitBlockFace() == BlockFace.UP){
-                block= event.getHitBlock();
+            if(HitEntity != null)
+                hitBlock = HitEntity.getLocation().getBlock();
 
+            //Main fire block
+            setFire(player, hitBlock);
 
-            } else if(event.getHitEntity() != null){
-                Location entityLoc = event.getHitEntity().getLocation();
-                entityLoc.setY(entityLoc.getY() - 1);
-                block = entityLoc.getBlock();
+            //Arround fire blocks
+            for (int i=0; i<10; i++){
+                int plusX = (int) (Math.random()*4);
+                int plusZ = (int) (Math.random()*4);
 
-            } else {
-                cumpleparametros = false;
-            }
+                Random negative = new Random();
 
-            if(cumpleparametros){
-                block.setType(Material.NETHERRACK);
-                setFireupside(block.getLocation());
-
-                Random rand = new Random();
-                switch (rand.nextInt(5)){
-                    case 0:
-                        FireSet0(block);
-                        break;
-
-                    case 1:
-                        FireSet1(block);
-                        break;
-
-                    case 2:
-                        FireSet2(block);
-                        break;
-                    case 3:
-                        FireSet3(block);
-                        break;
-                    case 4:
-                        FireSet4(block);
-                        break;
+                if(negative.nextBoolean()) {
+                    plusX = plusX * -1;
+                    player.sendMessage("RX");
                 }
-            }
+                if(negative.nextBoolean()) {
+                    plusZ = plusZ * -1;
+                    player.sendMessage("RZ");
+                }
 
+                Location locNearBlock = hitBlock.getLocation();
+                locNearBlock.setX(hitBlock.getX() + plusX);
+                locNearBlock.setZ(hitBlock.getZ() + plusZ);
+
+
+                setFire(player, locNearBlock.getBlock());
+
+            }
         }
 
         //LevitationBow
@@ -106,77 +102,29 @@ public class onProjectileHitEvent implements Listener {
     }
 
 // INICIO FUNCIONES FIREBOW
-    public void FireSet0(Block block){
-        setFireBlock(block.getLocation(),3,1);
-        setFireBlock(block.getLocation(),-1,-2);
-        setFireBlock(block.getLocation(),1,0);
-        setFireBlock(block.getLocation(),-1,0);
-        setFireBlock(block.getLocation(),2,1);
-        setFireBlock(block.getLocation(),0,-1);
-        setFireBlock(block.getLocation(),-3,1);
+    public void setFire( Player player, Block block){
+        player.sendMessage("FUNCIONAFUNCIONFUEGO");
+        Location Up = block.getLocation();
+        Location Down = block.getLocation();
+        int contador = 0;
+
+        while(Up.getBlock().getType() != Material.AIR && Down.getBlock().getType() != Material.AIR && contador < 2){
+            Up.setY(Up.getY() + 1);
+            Down.setY(Down.getY() - 1);
+            contador++;
+        }
+
+        if(Up.getBlock().getType() == Material.AIR){
+            Up.getBlock().setType(Material.FIRE);
+            player.getWorld().spawnParticle(Particle.FLAME, Up, 50,0,0,0,1);
+            player.getWorld().playSound(Up,Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,100,1);
+        } else if(Down.getBlock().getType() == Material.AIR){
+            Down.getBlock().setType(Material.FIRE);
+            player.getWorld().spawnParticle(Particle.FLAME, Down, 50,0,0,0,1);
+            player.getWorld().playSound(Down,Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,100,1);
+
+        }
     }
-
-    public void FireSet1(Block block){
-        setFireBlock(block.getLocation(),1,1);
-        setFireBlock(block.getLocation(),-1,-1);
-
-        setFireBlock(block.getLocation(),-1,0);
-        setFireBlock(block.getLocation(),0,1);
-        setFireBlock(block.getLocation(),2,-2);
-        setFireBlock(block.getLocation(),1,-1);
-        setFireBlock(block.getLocation(),-1,2);
-    }
-
-    public void FireSet2(Block block){
-        setFireBlock(block.getLocation(),1,1);
-        setFireBlock(block.getLocation(),1,0);
-        setFireBlock(block.getLocation(),-1,2);
-        setFireBlock(block.getLocation(),0,1);
-        setFireBlock(block.getLocation(),2,-1);
-        setFireBlock(block.getLocation(),1,-1);
-        setFireBlock(block.getLocation(),-1,2);
-    }
-
-    public void FireSet3(Block block){
-        setFireBlock(block.getLocation(),2,1);
-        setFireBlock(block.getLocation(),-1,-1);
-        setFireBlock(block.getLocation(),-1,0);
-        setFireBlock(block.getLocation(),3,1);
-        setFireBlock(block.getLocation(),0,-1);
-        setFireBlock(block.getLocation(),1,-1);
-        setFireBlock(block.getLocation(),-1,2);
-    }
-
-    public void FireSet4(Block block){
-        setFireBlock(block.getLocation(),2,1);
-        setFireBlock(block.getLocation(),-1,-1);
-        setFireBlock(block.getLocation(),1,3);
-        setFireBlock(block.getLocation(),-1,0);
-        setFireBlock(block.getLocation(),0,1);
-        setFireBlock(block.getLocation(),1,-2);
-        setFireBlock(block.getLocation(),-1,1);
-    }
-
-    public void setFireupside(Location blockLocation){
-
-        Location firelocation = blockLocation;
-        firelocation.setY(blockLocation.getY() + 1);
-        //firelocation.getBlock().setType(Material.FIRE);
-        firelocation.getWorld().spawnFallingBlock(firelocation, Material.FIRE, (byte) 0);
-
-    }
-
-    @SuppressWarnings("deprecation")
-    public void setFireBlock(Location blocklocation, int plusX, int plusZ){
-        Location xzplus1 = blocklocation;
-        xzplus1.setX(blocklocation.getX() + plusX);
-        xzplus1.setZ(blocklocation.getZ() + plusZ);
-
-
-        xzplus1.getWorld().spawnFallingBlock(xzplus1, Material.NETHERRACK, blocklocation.getBlock().getData());
-        setFireupside(xzplus1);
-    }
-    // FIN FUNCIONES FIREBOW
 
 
 }
