@@ -1,6 +1,7 @@
 commands\HTTbows.class
 httbows\httbows\HTTBows.class
 events\FireTheBow.class
+events\onProjectileHitEvent$1.class
 httbows\httbows\Runnables$1.class
 httbows\httbows\ArrowParticleManager.class
 events\onProjectileHitEvent.class

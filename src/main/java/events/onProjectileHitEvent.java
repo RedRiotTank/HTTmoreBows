@@ -1,5 +1,8 @@
 package events;
 
+import httbows.httbows.ArrowParticleManager;
+import httbows.httbows.PlayerpEffectsFromBow;
+import jdk.javadoc.internal.doclint.HtmlTag;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -12,10 +15,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;
 
 
+import static org.bukkit.Bukkit.getPluginManager;
 import static org.bukkit.Bukkit.getServer;
 
 public class onProjectileHitEvent implements Listener {
@@ -33,11 +38,6 @@ public class onProjectileHitEvent implements Listener {
 
         //Bloque golpeado
         Block hitBlock = event.getHitBlock();
-
-
-
-
-
 
         //EXPLOSIVE BOW
         if(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.DARK_RED + "Explosive Bow")) {
@@ -62,11 +62,11 @@ public class onProjectileHitEvent implements Listener {
 
                 if(negative.nextBoolean()) {
                     plusX = plusX * -1;
-                    player.sendMessage("RX");
+
                 }
                 if(negative.nextBoolean()) {
                     plusZ = plusZ * -1;
-                    player.sendMessage("RZ");
+
                 }
 
                 Location locNearBlock = hitBlock.getLocation();
@@ -85,6 +85,43 @@ public class onProjectileHitEvent implements Listener {
                 ((Player) HitEntity).addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION,20,6));
             } else if (HitEntity instanceof Mob){
                 ((Mob) HitEntity).addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION,20,6));
+            } else {
+                Material mat = hitBlock.getType();
+                Location locUpblock = hitBlock.getLocation();
+
+
+
+                new BukkitRunnable(){
+                    int repeatTask = 0;
+                    @Override
+                    public void run() {
+                        //comprobar el de arriba:
+
+                        locUpblock.setY(locUpblock.getY() + 1);
+                        if(locUpblock.getBlock().getType() != Material.AIR){
+                            locUpblock.setY(locUpblock.getY() - 1);
+                            locUpblock.getBlock().setType(Material.AIR);
+                            player.getWorld().spawnFallingBlock(locUpblock,mat,locUpblock.getBlock().getData());
+                            cancel();
+                        }
+                        locUpblock.setY(locUpblock.getY() - 1);
+                        locUpblock.getBlock().setType(Material.AIR);
+                        locUpblock.setY(locUpblock.getY() + 1);
+                        locUpblock.getBlock().setType(mat);
+                        repeatTask++;
+
+                        if(repeatTask == 30){
+                            locUpblock.getBlock().setType(Material.AIR);
+                            player.getWorld().spawnFallingBlock(locUpblock,mat,locUpblock.getBlock().getData());
+                            cancel();
+                        }
+
+                    }
+                }.runTaskTimer(getPluginManager().getPlugin("HTTBows"), 2,1);
+
+
+
+
             }
 
 
@@ -103,7 +140,7 @@ public class onProjectileHitEvent implements Listener {
 
 // INICIO FUNCIONES FIREBOW
     public void setFire( Player player, Block block){
-        player.sendMessage("FUNCIONAFUNCIONFUEGO");
+
         Location Up = block.getLocation();
         Location Down = block.getLocation();
         int contador = 0;
@@ -126,5 +163,9 @@ public class onProjectileHitEvent implements Listener {
         }
     }
 
+    public void levitateBlock(Location locBlock){
+
+
+    }
 
 }
