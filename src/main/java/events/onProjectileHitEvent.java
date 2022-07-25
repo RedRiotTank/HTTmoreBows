@@ -1,13 +1,9 @@
 package events;
 
-import httbows.httbows.ArrowParticleManager;
-import httbows.httbows.PlayerpEffectsFromBow;
-import jdk.javadoc.internal.doclint.HtmlTag;
+import com.sun.tools.javac.util.Pair;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,7 +17,6 @@ import java.util.Random;
 
 
 import static org.bukkit.Bukkit.getPluginManager;
-import static org.bukkit.Bukkit.getServer;
 
 public class onProjectileHitEvent implements Listener {
     @EventHandler(ignoreCancelled = true)
@@ -79,6 +74,7 @@ public class onProjectileHitEvent implements Listener {
             }
         }
 
+        int LevitationBowRadius = 2;
         //LevitationBow
         if(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.DARK_AQUA + "Levitation Bow")){
             if(HitEntity instanceof Player){
@@ -86,46 +82,95 @@ public class onProjectileHitEvent implements Listener {
             } else if (HitEntity instanceof Mob){
                 ((Mob) HitEntity).addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION,20,6));
             } else {
-                Material mat = hitBlock.getType();
-                Location locUpblock = hitBlock.getLocation();
+                Material matMainBlock = hitBlock.getType();
+                Location locUpBlock = hitBlock.getLocation();
+                locUpBlock.setY(locUpBlock.getY() + 1);
+                Location locBlock = hitBlock.getLocation();
 
 
 
+
+                Location locBlockDOWN = hitBlock.getLocation();
+                locBlockDOWN.setX(hitBlock.getX() + 1);
+                Material matDOWNBlock = locBlockDOWN.getBlock().getType();
+                Location locUpBlockDOWN = locBlockDOWN.clone();
+                locUpBlockDOWN.setY(locUpBlockDOWN.getY() + 1);
                 new BukkitRunnable(){
-                    int repeatTask = 0;
+                    int repeatTaskmain = 0, repeatTaskDOWN = 0;
+                    int cancel = 0;
+                    boolean mainBlockFinish = false, DOWNBlockFinish = false;
+                    int counterMainBlockFinish = 0, counterDownBlockFinish = 0;
                     @Override
                     public void run() {
-                        //comprobar el de arriba:
 
-                        locUpblock.setY(locUpblock.getY() + 1);
-                        if(locUpblock.getBlock().getType() != Material.AIR){
-                            locUpblock.setY(locUpblock.getY() - 1);
-                            locUpblock.getBlock().setType(Material.AIR);
-                            player.getWorld().spawnFallingBlock(locUpblock,mat,locUpblock.getBlock().getData());
+
+                        DOWNBlockFinish = levitate(locUpBlockDOWN, locBlockDOWN, DOWNBlockFinish, matDOWNBlock, player, repeatTaskDOWN);
+
+                        if(DOWNBlockFinish && counterDownBlockFinish == 0) {
+                            cancel++;
+                            counterDownBlockFinish++;
+                        }else
+                            repeatTaskDOWN++;
+
+
+
+
+                        mainBlockFinish = levitate(locUpBlock, locBlock, mainBlockFinish, matMainBlock, player, repeatTaskmain);
+
+                        if(mainBlockFinish && counterMainBlockFinish == 0) {
+                            cancel++;
+                            counterMainBlockFinish ++;
+                        }else
+                            repeatTaskmain++;
+
+
+
+
+
+
+                        /*
+                        if((locUpBlock.getBlock().getType() != Material.AIR || repeatTaskmain >= 10) && !mainBlockFinish){
+                            locBlock.getBlock().setType(Material.AIR);
+
+                            player.getWorld().spawnFallingBlock(locBlock,matMainBlock,(byte) 0);
+                            cancel++;
+                            mainBlockFinish = true;
+                        } else if(!mainBlockFinish){
+
+                            locBlock.getBlock().setType(Material.AIR);
+                            locUpBlock.getBlock().setType(matMainBlock);
+                            repeatTaskmain++;
+
+                            locBlock.setY(locBlock.getY() + 1);
+                            locUpBlock.setY(locUpBlock.getY() + 1);
+                        }
+
+                         */
+
+                        /*
+                        if((locUpBlockDOWN.getBlock().getType() != Material.AIR || repeatTaskDOWN >= 10) && !DOWNBlockFinish){
+                            locBlockDOWN.getBlock().setType(Material.AIR);
+
+                            player.getWorld().spawnFallingBlock(locBlockDOWN,matDOWNBlock,(byte) 0);
+                            cancel++;
+                            DOWNBlockFinish = true;
+                        } else if(!DOWNBlockFinish){
+
+                            locBlockDOWN.getBlock().setType(Material.AIR);
+                            locUpBlockDOWN.getBlock().setType(matDOWNBlock);
+                            repeatTaskDOWN++;
+
+                            locBlockDOWN.setY(locBlockDOWN.getY() + 1);
+                            locUpBlockDOWN.setY(locUpBlockDOWN.getY() + 1);
+                        }
+                        */
+
+                        if(cancel >= 2){
                             cancel();
                         }
-                        locUpblock.setY(locUpblock.getY() - 1);
-                        locUpblock.getBlock().setType(Material.AIR);
-                        locUpblock.setY(locUpblock.getY() + 1);
-                        locUpblock.getBlock().setType(mat);
-                        repeatTask++;
-
-                        if(repeatTask == 30){
-                            locUpblock.getBlock().setType(Material.AIR);
-                            player.getWorld().spawnFallingBlock(locUpblock,mat,locUpblock.getBlock().getData());
-                            cancel();
-                        }
-
                     }
                 }.runTaskTimer(getPluginManager().getPlugin("HTTBows"), 2,1);
-
-
-
-
             }
-
-
-
         }
 
         //ThunderBow
@@ -163,9 +208,27 @@ public class onProjectileHitEvent implements Listener {
         }
     }
 
-    public void levitateBlock(Location locBlock){
+    public boolean levitate(Location locUpBlock, Location locBlock, boolean mainBlockFinish, Material matMainBlock, Player player, int repeatTaskmain){
 
+
+        if((locUpBlock.getBlock().getType() != Material.AIR || repeatTaskmain >= 10) && !mainBlockFinish){
+            locBlock.getBlock().setType(Material.AIR);
+
+            player.getWorld().spawnFallingBlock(locBlock,matMainBlock,(byte) 0);
+
+            mainBlockFinish = true;
+        } else if(!mainBlockFinish){
+
+            locBlock.getBlock().setType(Material.AIR);
+            locUpBlock.getBlock().setType(matMainBlock);
+
+
+            locBlock.setY(locBlock.getY() + 1);
+            locUpBlock.setY(locUpBlock.getY() + 1);
+        }
+        return mainBlockFinish;
 
     }
+
 
 }

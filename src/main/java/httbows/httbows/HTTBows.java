@@ -2,6 +2,8 @@ package httbows.httbows;
 import commands.HTTbows;
 import events.*;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class HTTBows extends JavaPlugin {
@@ -17,6 +19,13 @@ public final class HTTBows extends JavaPlugin {
 
         //Runnables register
         //Runnables.runnable(this);
+
+        //initialize lgazy:
+        Location ini = getServer().getWorld("World").getSpawnLocation();
+        ini.setX(0);
+        ini.setY(100);
+        ini.setZ(0);
+        getServer().getWorld("World").spawnFallingBlock(ini, Material.ANDESITE, (byte) 0);
         Bukkit.getConsoleSender().sendMessage("HTTBows started correctly");
     }
 
