@@ -392,6 +392,7 @@ public class onProjectileHitEvent implements Listener {
 
             locBlock.getBlock().setType(Material.AIR);
             locUpBlock.getBlock().setType(matMainBlock);
+            player.spawnParticle(Particle.BLOCK_CRACK, locBlock, 10, matMainBlock.createBlockData());
 
 
             locBlock.setY(locBlock.getY() + 1);
