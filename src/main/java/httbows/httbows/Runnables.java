@@ -12,7 +12,7 @@ public class Runnables {
             public void run() {
 
                 //ShadowBow
-                PlayerpEffectsFromBow.ShadowBowEffects();
+                //PlayerpEffectsFromBow.ShadowBowEffects();
 
                 //ArrowsParticles
                 ArrowParticleManager.ArrowsParticles();

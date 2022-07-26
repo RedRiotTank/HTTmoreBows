@@ -21,6 +21,7 @@ public class FireTheBow implements Listener {
                 shadowBow = ChatColor.DARK_PURPLE + "Shadows Bow";
 
        if(nombrearco.equals(shadowBow)){
+           event.getProjectile().setCustomName("ShadowBowProjectile");
            player = (Player) event.getEntity();
            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,100,4));
        }

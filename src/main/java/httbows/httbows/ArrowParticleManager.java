@@ -26,6 +26,10 @@ public class ArrowParticleManager {
             if (flecha.getCustomName().equals("ExplosiveBowProjectile") )
                 particleType = Particle.SMOKE_NORMAL;
 
+            if(flecha.getCustomName().equals("ShadowBowProjectile")){
+                particleType = Particle.PORTAL;
+            }
+
             getServer().getWorld("World").spawnParticle(particleType, flecha.getLocation(), 20,0,0,0,0.1);
 
         }

@@ -17,8 +17,8 @@ public final class HTTBows extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new onProjectileHitEvent(), this);
         getServer().getPluginManager().registerEvents(new FireTheBow(), this);
 
-        //Runnables register
-        //Runnables.runnable(this);
+
+        Runnables.runnable(this);
 
         //initialize lgazy:
         Location ini = getServer().getWorld("World").getSpawnLocation();
