@@ -20,7 +20,7 @@ public class ArrowParticleManager {
                 particleType = Particle.FIREWORKS_SPARK;
 
             if (flecha.getCustomName().equals("LevitationBowProjectile") )
-                particleType = Particle.SUSPENDED;
+                particleType = Particle.CLOUD;
 
             if (flecha.getCustomName().equals("ExplosiveBowProjectile") )
                 particleType = Particle.SMOKE_NORMAL;
