@@ -2,7 +2,9 @@ package events;
 
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Skeleton;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityShootBowEvent;
@@ -19,6 +21,11 @@ public class FireTheBow implements Listener {
                 levitationbow = ChatColor.DARK_AQUA + "Levitation Bow",
                 explosiveBow = ChatColor.DARK_RED + "Explosive Bow",
                 shadowBow = ChatColor.DARK_PURPLE + "Shadows Bow";
+
+        //This is to avoid errors
+        if(event.getEntity() instanceof Mob){
+            event.getProjectile().setCustomName("MobProjectile");
+        }
 
        if(nombrearco.equals(shadowBow)){
            event.getProjectile().setCustomName("ShadowBowProjectile");

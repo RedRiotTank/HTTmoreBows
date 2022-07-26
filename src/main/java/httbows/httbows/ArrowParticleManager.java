@@ -11,9 +11,8 @@ public class ArrowParticleManager {
     public static void ArrowsParticles(){
         Collection<Arrow> flechas = getServer().getWorld("World").getEntitiesByClass(org.bukkit.entity.Arrow.class);
         Particle particleType = null;
+
         for(Entity flecha : flechas) {
-
-
             if (flecha.getCustomName().equals("FireBowProjectile") )
                 particleType = Particle.FLAME;
 
@@ -26,11 +25,13 @@ public class ArrowParticleManager {
             if (flecha.getCustomName().equals("ExplosiveBowProjectile") )
                 particleType = Particle.SMOKE_NORMAL;
 
-            if(flecha.getCustomName().equals("ShadowBowProjectile")){
+            if(flecha.getCustomName().equals("ShadowBowProjectile"))
                 particleType = Particle.PORTAL;
-            }
 
-            getServer().getWorld("World").spawnParticle(particleType, flecha.getLocation(), 20,0,0,0,0.1);
+
+
+            if(particleType != null)
+                flecha.getWorld().spawnParticle(particleType, flecha.getLocation(), 20,0,0,0,0.1);
 
         }
 

@@ -3,6 +3,7 @@ package events;
 
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
@@ -345,6 +346,30 @@ public class onProjectileHitEvent implements Listener {
             if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.GRAY + "Thunder Bow")) {
                 player.getWorld().strikeLightning(event.getEntity().getLocation());
                 //player.getWorld().spawnParticle(Particle.ELECTRIC_SPARK,event.getEntity().getLocation(),500);
+            }
+
+            //ShadowBow
+            if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.DARK_PURPLE + "Shadows Bow")) {
+                Location teleport = hitBlock.getLocation().clone();
+                if (hitBlock != null) {
+                    if(event.getHitBlockFace() == BlockFace.UP)
+                        teleport.setY(teleport.getY() + 1);
+
+                    player.teleport(teleport);
+                    player.getWorld().playSound(hitBlock.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 100, 1);
+
+                } else if(HitEntity != null){
+
+                    if(HitEntity instanceof Player){
+                        ((Player) HitEntity).addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS,100,4));
+                    }
+
+                    if(HitEntity instanceof Mob){
+                        ((Mob) HitEntity).addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS,100,4));
+
+                    }
+
+                }
             }
 
             event.getEntity().remove();
