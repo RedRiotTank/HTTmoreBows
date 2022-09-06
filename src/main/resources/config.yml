@@ -1,0 +1,13 @@
+Config:
+    CustomNames: false
+    LevitationBowName: Default Levitation
+    ThunderBowName: Default Thunder
+    ExplosiveBowName: Default Explosive
+    FireBowName: Default Fire
+    ShadowBowName: Default Shadow
+    CustomLores: false
+    LevitationBowLore: Default Lore Levitation
+    ThunderBowLore: Default Lore Thunder
+    ExplosiveBowLore: Default Lore Explosive
+    FireBowLore: Default Lore Fire
+    ShadowBowLore: Default Lore Shadow

@@ -1,13 +1,10 @@
 package httbows.httbows;
-
 import org.bukkit.Particle;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import java.util.Collection;
 import static org.bukkit.Bukkit.getServer;
-
 public class ArrowParticleManager {
-
     public static void ArrowsParticles(){
         Collection<Arrow> flechas = getServer().getWorld("World").getEntitiesByClass(org.bukkit.entity.Arrow.class);
         Particle particleType = null;
@@ -28,14 +25,8 @@ public class ArrowParticleManager {
             if(flecha.getCustomName().equals("ShadowBowProjectile"))
                 particleType = Particle.PORTAL;
 
-
-
             if(particleType != null)
                 flecha.getWorld().spawnParticle(particleType, flecha.getLocation(), 20,0,0,0,0.1);
-
         }
-
     }
-
-
 }

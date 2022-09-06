@@ -5,7 +5,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class Runnables {
-
     public static void runnable(Plugin plugin){
         new BukkitRunnable(){
             @Override

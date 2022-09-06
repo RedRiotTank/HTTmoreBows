@@ -34,13 +34,14 @@ public class onProjectileHitEvent implements Listener {
             //entidad golpeada
             Entity HitEntity = event.getHitEntity();
 
+
             //EXPLOSIVE BOW
-            if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.DARK_RED + "Explosive Bow")) {
+            if (event.getEntity().getCustomName().equals("ExplosiveBowProjectile")) {
                 player.getWorld().createExplosion(event.getEntity().getLocation(), 5, true, true);
             }
 
             //FIRE BOW
-            if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.RED + "Fire Bow")) {
+            if (event.getEntity().getCustomName().equals("FireBowProjectile")) {
 
                 if (HitEntity != null)
                     hitBlock = HitEntity.getLocation().getBlock();
@@ -74,7 +75,7 @@ public class onProjectileHitEvent implements Listener {
             }
 
             //LevitationBow
-            if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.DARK_AQUA + "Levitation Bow")) {
+            if (event.getEntity().getCustomName().equals("LevitationBowProjectile")) {
                 if (HitEntity instanceof Player) {
                     ((Player) HitEntity).addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 20, 6));
                 } else if (HitEntity instanceof Mob) {
@@ -343,15 +344,16 @@ public class onProjectileHitEvent implements Listener {
             }
 
             //ThunderBow
-            if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.GRAY + "Thunder Bow")) {
+            if (event.getEntity().getCustomName().equals("ThunderBowProjectile")) {
                 player.getWorld().strikeLightning(event.getEntity().getLocation());
                 //player.getWorld().spawnParticle(Particle.ELECTRIC_SPARK,event.getEntity().getLocation(),500);
             }
 
             //ShadowBow
-            if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.DARK_PURPLE + "Shadows Bow")) {
-                Location teleport = hitBlock.getLocation().clone();
+            if (event.getEntity().getCustomName().equals("ShadowBowProjectile")) {
+
                 if (hitBlock != null) {
+                    Location teleport = hitBlock.getLocation().clone();
                     if(event.getHitBlockFace() == BlockFace.UP)
                         teleport.setY(teleport.getY() + 1);
 
@@ -361,11 +363,11 @@ public class onProjectileHitEvent implements Listener {
                 } else if(HitEntity != null){
 
                     if(HitEntity instanceof Player){
-                        ((Player) HitEntity).addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS,100,4));
+                        ((Player) HitEntity).addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS,100,2));
                     }
 
                     if(HitEntity instanceof Mob){
-                        ((Mob) HitEntity).addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS,100,4));
+                        ((Mob) HitEntity).addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS,100,2));
 
                     }
 
