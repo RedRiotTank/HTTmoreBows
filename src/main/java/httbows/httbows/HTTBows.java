@@ -44,10 +44,10 @@ public final class HTTBows extends JavaPlugin {
         File config = new File(this.getDataFolder(), "config.yml");
         configPath = config.getPath();
 
-
+        if(!config.exists()){
             this.getConfig().options().copyDefaults(true);
             saveConfig();
 
-
+        }
     }
 }

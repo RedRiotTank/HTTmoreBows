@@ -10,23 +10,28 @@ public class ArrowParticleManager {
         Particle particleType = null;
 
         for(Entity flecha : flechas) {
-            if (flecha.getCustomName().equals("FireBowProjectile") )
-                particleType = Particle.FLAME;
 
-            if (flecha.getCustomName().equals("ThunderBowProjectile") )
-                particleType = Particle.FIREWORKS_SPARK;
+            if(flecha.getCustomName() == null){
 
-            if (flecha.getCustomName().equals("LevitationBowProjectile") )
-                particleType = Particle.CLOUD;
+            } else {
+                if (flecha.getCustomName().equals("FireBowProjectile") )
+                    particleType = Particle.FLAME;
 
-            if (flecha.getCustomName().equals("ExplosiveBowProjectile") )
-                particleType = Particle.SMOKE_NORMAL;
+                if (flecha.getCustomName().equals("ThunderBowProjectile") )
+                    particleType = Particle.FIREWORKS_SPARK;
 
-            if(flecha.getCustomName().equals("ShadowBowProjectile"))
-                particleType = Particle.PORTAL;
+                if (flecha.getCustomName().equals("LevitationBowProjectile") )
+                    particleType = Particle.CLOUD;
 
-            if(particleType != null)
-                flecha.getWorld().spawnParticle(particleType, flecha.getLocation(), 20,0,0,0,0.1);
+                if (flecha.getCustomName().equals("ExplosiveBowProjectile") )
+                    particleType = Particle.SMOKE_NORMAL;
+
+                if(flecha.getCustomName().equals("ShadowBowProjectile"))
+                    particleType = Particle.PORTAL;
+
+                if(particleType != null)
+                    flecha.getWorld().spawnParticle(particleType, flecha.getLocation(), 20,0,0,0,0.1);
+            }
         }
     }
 }

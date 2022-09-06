@@ -25,20 +25,11 @@ public class FireTheBow implements Listener {
         Player player = null;
         String nombrearco = event.getBow().getItemMeta().getDisplayName();
         String Lore = "";
-        System.out.println(event.getBow().getItemMeta().getLore().size());
-        System.out.println(event.getBow().getItemMeta().getLore().get(0));
-
-        if(event.getBow().getItemMeta().getLore().size() >= 1)
-             Lore = event.getBow().getItemMeta().getLore().get(0);
-
         String firebowName, thunderbowName, levitationbowName, explosivebowName, shadowbowName,
-               firebowLore, thunderbowLore, levitationbowLore, explosivebowLore, shadowbowLore;
-
+                firebowLore, thunderbowLore, levitationbowLore, explosivebowLore, shadowbowLore;
 
 
         FileConfiguration config = plugin.getConfig();
-
-
 
         if(config.getString("Config.CustomNames").equals("true")){
 
@@ -69,14 +60,18 @@ public class FireTheBow implements Listener {
             explosivebowLore = "This Explosive Bow is really destructive...";
             shadowbowLore = "This bow belonged to a shadow assassin";
         }
+        if(event.getBow().getItemMeta().hasLore()) {
+
+                Lore = event.getBow().getItemMeta().getLore().get(0);
 
 
+        }
 
         //This is to avoid errors
         if(event.getEntity() instanceof Mob)
             event.getProjectile().setCustomName("MobProjectile");
 
-        System.out.println("lore shadowbow: " + shadowbowLore);
+
        if(nombrearco.equals(shadowbowName) && shadowbowLore.equals(Lore)){
            event.getProjectile().setCustomName("ShadowBowProjectile");
            player = (Player) event.getEntity();
