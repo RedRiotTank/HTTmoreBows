@@ -344,10 +344,10 @@ public class onProjectileHitEvent implements Listener {
                 }
 
                 //ThunderBow
-                if (event.getEntity().getCustomName().equals("ThunderBowProjectile")) {
+                if (event.getEntity().getCustomName().equals("ThunderBowProjectile"))
                     player.getWorld().strikeLightning(event.getEntity().getLocation());
-                    //player.getWorld().spawnParticle(Particle.ELECTRIC_SPARK,event.getEntity().getLocation(),500);
-                }
+
+
 
                 //ShadowBow
                 if (event.getEntity().getCustomName().equals("ShadowBowProjectile")) {

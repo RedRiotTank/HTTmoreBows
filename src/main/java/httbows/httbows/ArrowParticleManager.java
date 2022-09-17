@@ -1,7 +1,10 @@
 package httbows.httbows;
 import org.bukkit.Particle;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+
+
 import java.util.Collection;
 import static org.bukkit.Bukkit.getServer;
 public class ArrowParticleManager {
